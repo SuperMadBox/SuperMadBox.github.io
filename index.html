@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery/jquery.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to right, hsl(25, 100%, 50%), hsl(225, 100%, 40%));
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .text {
+            font-family: 'Open Sans', sans-serif;
+            color: black;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .timer {
+            font-size: 145px;
+            margin-top: 20px;
+        }
+
+
+        .image {
+            position: absolute;
+            height: 200px;
+            width: 200px;
+            top: 0;
+        }
+
+        #ghost {
+            /* Place the Ghost image on the left side */
+            left: 520px;
+            top: 10%;
+        }
+
+        #antonio {
+            /* Place the Antonio image on the right side */
+            right: 520px;
+            top: 10%;
+        }
+
+        #swap
+        {
+            left: 860px;
+            top: 10%
+        }
+
+        @keyframes rotating_swap {
+            25%
+            {
+                transform: rotate(90deg)
+            }
+
+            50%
+            {
+                transform: rotate(180deg);
+            }
+
+            75%
+            {
+                transform: rotate(270deg);
+            }
+
+            100%
+            {
+                transform: rotate(360deg);
+            }
+        }
+
+        
+        #swap:hover
+        {
+           animation: rotating_swap 3s linear infinite;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Add the Ghost image to the HTML -->
+<img src="Ghost.png" class="image" id="ghost">
+
+<!-- Add the Antonio image to the HTML -->
+<img src="Antonio.png" class="image" id="antonio">
+
+<img onclick="swapAnimation()" src="swap.png" class="image" id="swap">
+
+<audio src="tick.mp3" id="clicking-sound"></audio>
+
+<div class="container">
+    <div class="text">NEXT GALAXYVIKINGS STREAM</div>
+    <div class = "timer" id="timer"></div>
+</div>
+
+
+
+<script>
+    // Set the target date and time
+    const targetDate = new Date("Jan 2, 2023 19:00:00");
+
+    const audio = document.getElementById("clicking-sound");
+
+    // Set an interval to update the timer every second
+    setInterval(function() {
+        // Get the current date and time
+        const currentDate = new Date();
+        // Calculate the time difference between the target date and the current date
+        const timeDifference = targetDate - currentDate;
+
+        // Calculate the number of days, hours, minutes, and seconds until the target date
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+        const daysString = days < 10 ? `0${days}` : days;
+        const hoursString = hours < 10 ? `0${hours}` : hours;
+        const minutesString = minutes < 10 ? `0${minutes}` : minutes;
+        const secondsString = seconds < 10 ? `0${seconds}` : seconds;
+
+        // Update the timer element with the calculated time
+        document.getElementById("timer").innerHTML = `${daysString}:${hoursString}:${minutesString}:${secondsString}`;
+
+        audio.play();
+
+    }, 1000);
+
+    let counter = 0;
+
+    function swapAnimation()
+    {
+        let ghost = document.getElementById("ghost")
+        let antonio = document.getElementById("antonio");
+
+        if (counter % 2 === 0) {
+        ghost.setAttribute("style", "left: 1200px");
+        antonio.setAttribute("style", "left: 520px");
+    }
+        if(counter % 2 === 1)
+        {
+            ghost.setAttribute("style", "left: 520px");
+            antonio.setAttribute("style", "right: 520px");
+        }
+        counter++;
+    }
+
+</script>
+</body>
+</html>
