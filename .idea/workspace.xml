@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="75f0a1f7-23dc-4c5b-a7c9-c94abcb2194e" name="Changes" comment="" />
+    <list default="true" id="450a76e7-2dc6-4033-bd68-4e4261c13009" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,26 +14,14 @@
       </list>
     </option>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2KMBskYPdsETufYjq9pDAEsSNfx" />
+  <component name="ProjectId" id="2LszqLnwYxGOZVcljmLLlBz5TOt" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-<<<<<<< HEAD
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
-=======
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
@@ -41,22 +29,25 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
->>>>>>> d10fdf09500135e13d9844238206779a5a073135
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="75f0a1f7-23dc-4c5b-a7c9-c94abcb2194e" name="Changes" comment="" />
-      <created>1673774779791</created>
+      <changelist id="450a76e7-2dc6-4033-bd68-4e4261c13009" name="Changes" comment="" />
+      <created>1676674767886</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1673774779791</updated>
-      <workItem from="1673774780951" duration="4778000" />
-<<<<<<< HEAD
-=======
-      <workItem from="1673780442436" duration="51000" />
->>>>>>> d10fdf09500135e13d9844238206779a5a073135
+      <updated>1676674767886</updated>
+      <workItem from="1676674769009" duration="2394000" />
+      <workItem from="1676889236994" duration="16233000" />
+      <workItem from="1677179776373" duration="3578000" />
+      <workItem from="1677184085534" duration="2838000" />
+      <workItem from="1677248887015" duration="619000" />
+      <workItem from="1677261080605" duration="684000" />
+      <workItem from="1677322659751" duration="169000" />
+      <workItem from="1677763048849" duration="5943000" />
+      <workItem from="1677777667934" duration="6081000" />
     </task>
     <servers />
   </component>

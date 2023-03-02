@@ -1,183 +1,326 @@
+<!--Get a shit load of league champions pictures using API and then put them in the center of the screen ahd have an input field-->
+<!--where you the user has to enter their name. Each name rewards you with points. At first the image is all scrambled or blurred and-->
+<!--get more clear with time. WHen a user guess wrong 3 times the game ends, if the guess correctly it continue to the next random streamer,also-->
+<!--have a screenshot thingy where a user can take a screenshot of their score and have a shareable link or an image-->
+
+<!--STEP 1: GET MAKE THE IMAGE THINGY CENTERED AND ALSO MAKE THE INPUT BELOW IT  ✅-->
+<!--STEP 2: IMPLEMENT THE "API" ✅-->
+<!--STEP 3: MAKE THE GUESSING MECHANIC ✅-->
+<!--STEP 4: MAKE THE IMAGES UNZOOM SOMEHOW ✅-->
+<!--STEP 5: IMPLEMENT A TIMER OF 10s-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tier List</title>
+    <title>Guess the League Champion</title>
     <link rel="stylesheet" href="jquery/jquery-ui.css">
     <script src="jquery/jquery.js"></script>
     <script src="jquery/jquery-ui.js"></script>
+    <script src="jquery/p5.min.js"></script>
+
     <style>
-        .container
-        {
-            height: 100px;
-            width: 1500px;
-            display: flex;
-        }
+            body
+            {
+                height: 100vh;
+                width: 100vw;
+                background: #A26769;
+                display: grid;
+                place-items: center;
+                overflow: hidden;
+            }
 
-        .tier
-        {
-            height: 100px;
-            width: 100px;
-            border: 1px solid black;
-            display: grid;
-            place-items: center;
-            font-size: 50px;
-        }
+            #image
+            {
+                width: 500px;
+                height: 500px;
+                border: 1px solid #70A9A1;
+                margin-top: -234px;
+                overflow: hidden;
+            }
 
-        ul
-        {
-            list-style: none;
-        }
+            .inputs
+            {
+                margin-top: -200px;
+            }
 
-        ul li
-        {
-            height: 100px;
-            width: 100px;
-            display: inline-block;
-        }
+            #guessInput
+            {
+                width: 350px;
+                height: 80px;
+                text-align: center;
+                border-radius: 50px;
+                font-size: 40px;
+                background: #1E152A;
+                border: 1px solid white;
+                margin-bottom: -48px;
+                color: white;
+                -webkit-text-stroke-color: #171738;
+                -webkit-text-stroke-width: 0.5px;
+            }
 
-        .list
-        {
-            height: 100px;
-            width: 1400px;
-            border: 1px solid black;
-            list-style: none;
-        }
+            @keyframes unScale {
+                0%
+                {
+                    transform: scale(15);
+                }
+                100%
+                {
+                    transform: scale(1);
+                }
+            }
 
-        .list li
-        {
-            display: inline-block;
-        }
+            .leaguePhotos
+            {
+                width: 100%;
+                height: 100%;
+                animation-name: unScale;
+                animation-duration: 15s;
+                animation-timing-function: ease-in-out;
+            }
 
-        #photos
-        {
-            margin-top: 20px;
-            margin-left: -35px;
-            vertical-align: top;
-        }
+            #score
+            {
+                margin-top: -100px;
+                margin-bottom: 0;
+                padding: 0;
+                font-size: 50px;
+                color: #FFD9CE;
+                -webkit-text-stroke-color: #171738;
+                -webkit-text-stroke-width: 0.5px;
+                vertical-align: top;
+            }
 
-        img
-        {
-            height: 100px;
-            width: 100px;
-        }
 
-        #tier_s
-        {
-            background: #f60015;
-        }
+            #timer {
+                font-size: 75px;
+                margin-left: 16px;
+                margin-top: -302px;
+                margin-bottom: 0;
+                display: block;
+                color: #FFD9CE;
+                -webkit-text-stroke-color: #171738;
+                -webkit-text-stroke-width: 0.5px;
+            }
 
-        #tier_a
-        {
-            background: #ef6d03;
-        }
 
-        #tier_b
-        {
-            background: #efd760;
-        }
+            #wrong
+            {
+                position: absolute;
+            }
 
-        #tier_c
-        {
-            background: #faf70f;
-        }
+            #background_music
+            {
+                display: none;
+            }
 
-        #tier_d
-        {
-            background: #60ef60;
-        }
+            #gameOverScreen
+            {
+                display: none;
+                margin-top: -60px;
+            }
 
-        #tier_f
-        {
-            background: #06f306;
-        }
+            #game_over
+            {
+                font-size: 100px;
+                color: white;
+                -webkit-text-stroke: black;
+                -webkit-text-stroke-width: 1px;
+                display: grid;
+                place-items: center;
+            }
 
-        body
-        {
-            background: #bcabde;
-            height: 100vh;
-            width: 100vw;
-            display: grid;
-            place-items: center;
-            overflow: hidden;
-        }
+            #you_got
+            {
+                font-size: 125px;
+                color: white;
+                -webkit-text-stroke: black;
+                -webkit-text-stroke-width: 1px;
+            }
 
-        iframe
-        {
-            position: absolute;
-            top: 72px;
-            left: 420px;
-            display: none;
-        }
+            #final_points
+            {
+                font-size: 125px;
+                color: white;
+                -webkit-text-stroke: black;
+                -webkit-text-stroke-width: 1px;
+            }
+            #again
+            {
+                font-size: 100px;
+                color: white;
+                background: none;
+                border: none;
+                -webkit-text-stroke: black;
+                -webkit-text-stroke-width: 1px;
+                cursor: pointer;
+                margin-left: 340px;
+            }
+
     </style>
+
 </head>
 <body>
-
 <script>
     $(document).ready(function (){
 
+        let images = []
 
-        $("#photos_list").sortable({
-            connectWith: ".list",
-        })
+        let leagueNames = ["Aatrox.png","Ahri.png","Akali.png","Akshan.png","Alistar.png","Amumu.png","Anivia.png","Annie.png","Aphelios.png","Ashe.png","AurelionSol.png","Azir.png","Bard.png","Belveth.png","Blitzcrank.png","Brand.png","Braum.png","Caitlyn.png","Camille.png","Cassiopeia.png","Chogath.png","Corki.png","Darius.png","Diana.png","Draven.png","DrMundo.png","Ekko.png","Elise.png","Evelynn.png","Ezreal.png","FiddleSticks.png","Fiora.png","Fizz.png","Galio.png","Gangplank.png","Garen.png","Gnar.png","Gragas.png","Graves.png","Gwen.png","Hecarim.png","Heimerdinger.png","Illaoi.png","Irelia.png","Ivern.png","Janna.png","JarvanIV.png","Jax.png","Jayce.png","Jhin.png","Jinx.png","Kaisa.png","Kalista.png","Karma.png","Karthus.png","Kassadin.png","Katarina.png","Kayle.png","Kayn.png","Kennen.png","Khazix.png","Kindred.png","Kled.png","KogMaw.png","KSante.png","Leblanc.png","LeeSin.png","Leona.png","Lillia.png","Lissandra.png","Lucian.png","Lulu.png","Lux.png","Malphite.png","Malzahar.png","Maokai.png","MasterYi.png","MissFortune.png","Wukong.png","Mordekaiser.png","Morgana.png","Nami.png","Nasus.png","Nautilus.png","Neeko.png","Nidalee.png","Nilah.png","Nocturne.png","Nunu.png","Olaf.png","Orianna.png","Ornn.png","Pantheon.png","Poppy.png","Pyke.png","Qiyana.png","Quinn.png","Rakan.png","Rammus.png","RekSai.png","Rell.png","Renata.png","Renekton.png","Rengar.png","Riven.png","Rumble.png","Ryze.png","Samira.png","Sejuani.png","Senna.png","Seraphine.png","Sett.png","Shaco.png","Shen.png","Shyvana.png","Singed.png","Sion.png","Sivir.png","Skarner.png","Sona.png","Soraka.png","Swain.png","Sylas.png","Syndra.png","TahmKench.png","Taliyah.png","Talon.png","Taric.png","Teemo.png","Thresh.png","Tristana.png","Trundle.png","Tryndamere.png","TwistedFate.png","Twitch.png","Udyr.png","Urgot.png","Varus.png","Vayne.png","Veigar.png","Velkoz.png","Vex.png","Vi.png","Viego.png","Viktor.png","Vladimir.png","Volibear.png","Warwick.png","Xayah.png","Xerath.png","XinZhao.png","Yasuo.png","Yone.png","Yorick.png","Yuumi.png","Zac.png","Zed.png","Zeri.png","Ziggs.png","Zilean.png","Zoe.png","Zyra.png"]
+        let updateScore = 0;
+        let timerOfTenSeconds = 15;
+        let display = document.getElementById("timer");
+        let timer = timerOfTenSeconds, seconds;
+        let counter = 0;
+        let wrongAnswer;
+        let intervalActive = true;
 
-        $(".list").sortable({
-            connectWith: "#photos_list",
-            connectWith: ".list",
-        })
+        let buzzerSound = new Audio("sounds/buzzer.mp3");
+        $(" body ").append(buzzerSound);
+        let correctSound = new Audio("sounds/correct.mp3");
 
-        $("#shroud").click(function(){
-            $("iframe").toggle();
-        })
+            for (let i = 0; i < leagueNames.length; i++) {
+                let img = new Image();
+                img.src = "photos/" + leagueNames[i];
+                images.push(img);
+                images[i].setAttribute("class", "leaguePhotos")
+            }
+
+            let randomNumber = Math.floor(Math.random() * images.length);
+            $("#image").append(images[randomNumber]);
+            let cutName = leagueNames[randomNumber].split(".", (1)).toString();
+            <!-- Get a randomNumber and then get that item from the list-->
+
+            $("#updateScore").text(updateScore);
+
+
+                let interval = setInterval(function () {
+                    seconds = parseInt(timer % 60, 10);
+
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    display.textContent = seconds;
+
+                    if (counter > 0) {
+                        $("#wrong").hide();
+                    }
+                    if (--timer < 0) {
+                        counter++;
+                        $("#image img").remove();
+                        let randomNumber = Math.floor(Math.random() * images.length);
+                        $("#image").append(images[randomNumber]);
+                        cutName = leagueNames[randomNumber].split(".", (1)).toString();
+                        timer = timerOfTenSeconds;
+                        wrongAnswer = document.createElement("img");
+                        wrongAnswer.srcset = "photos/X.png";
+                        $("#wrong").append(wrongAnswer);
+                        $("#wrong").show();
+                        buzzerSound.play();
+                    }
+
+                    if (counter >= 3) {
+                        $("#score").hide();
+                        $(".inputs").hide();
+                        $("#image").hide();
+                        $("#timer").hide();
+                        $("#gameOverScreen").show();
+                        $("#final_points").text(updateScore)
+                    }
+
+                    if(counter >= 4)
+                    {
+                        $("#wrong").hide();
+                        buzzerSound.pause();
+                    }
+
+                }, 1000);
+
+            $(document).on("keydown", function (event) {
+                if (event.key === "Enter") {
+                    let guessedName = $("#guessInput").val();
+                    if (cutName.toLowerCase() === guessedName.toLowerCase()) {
+
+                        $("#image img").remove();
+                        let randomNumber = Math.floor(Math.random() * images.length);
+                        $("#image").append(images[randomNumber]);
+
+                        cutName = leagueNames[randomNumber].split(".", (1)).toString();
+
+
+                        $("#guessInput").val("");
+                        correctSound.play();
+
+                        if (Math.floor(timer) >= 10 && Math.floor(timer) <= 15)
+                        {
+                            $("#updateScore").text(updateScore += 3);
+                            console.log(timer);
+                            timer = timerOfTenSeconds;
+                        }
+
+                        if(Math.floor(timer) >= 5 && Math.floor(timer) < 10)
+                        {
+                            $("#updateScore").text(updateScore += 2);
+                            console.log(timer);
+                            timer = timerOfTenSeconds;
+                        }
+
+                        if(Math.floor(timer) < 5)
+                        {
+                            $("#updateScore").text(updateScore += 1);
+                            console.log(timer);
+                            timer = timerOfTenSeconds;
+                        }
+
+                    }
+                    $("#guessInput").val("");
+                }
+            })
+
+            $("#again").click(function () {
+                counter = 0;
+                updateScore = 0;
+                intervalActive = true;
+                $("#score").show();
+                $(".inputs").show();
+                $("#image").show();
+                $("#wrong").show();
+                $("#timer").show();
+                $("#gameOverScreen").hide();
+                $("#wrong img").remove();
+            })
+
     })
+
+
+
+
 </script>
-<div id="biggest_container">
-<div class="container">
-    <div class="tier" id="tier_s">S</div>
-    <div class="list"></div>
+
+<iframe src="sounds/silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
+
+<audio id="background_music" controls autoplay loop>
+    <source src="sounds/PUSH.mp3" type="audio/mp3">
+</audio>
+
+
+<div id="score">
+    <p>Points: <span id="updateScore"></span></p>
+</div>
+<p id="timer"></p>
+<div id="image">
+
 </div>
 
-<div class="container">
-    <div class="tier" id="tier_a">A</div>
-    <div class="list"></div>
+<div class="inputs">
+    <input type="text" id="guessInput">
 </div>
+<div id="wrong"></div>
 
-<div class="container">
-    <div class="tier"id="tier_b">B</div>
-    <div class="list"></div>
-</div>
 
-<div class="container">
-    <div class="tier"id="tier_c">C</div>
-    <div class="list"></div>
-</div>
-
-<div class="container">
-    <div class="tier" id="tier_d">D</div>
-    <div class="list"></div>
-</div>
-
-<div class="container">
-    <div class="tier" id="tier_f">F</div>
-    <div class="list"></div>
-</div>
-
-<div id="photos">
-    <ul id="photos_list">
-    <li><img src="https://www.nme.com/wp-content/uploads/2021/08/Twitch-Streamer-xQc@2000x1270.jpg"></li>
-    <li><img src="https://nationaltoday.com/wp-content/uploads/2022/10/456841144-min.jpg"></li>
-    <li><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Ludwig_Ahgren_in_2022_%282%29_%28cropped%29.jpg"></li>
-        <li><img src="https://pbs.twimg.com/profile_images/1289836662038511617/YL-QFJoh_400x400.jpg"></li>
-        <li><img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Asmongold_in_2022.png"></li>
-        <li><img src="data:image/jpeg;base64,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"></li>
-        <li><img id = shroud src="https://upload.wikimedia.org/wikipedia/commons/5/51/Shroud_at_PUBG_PGI_2018_%28cropped%29.jpg"></li>
-        <li><img src="https://metro.co.uk/wp-content/uploads/2020/05/Screenshot_1-990c.jpg?quality=90&strip=all&zoom=1&resize=480%2C275"></li>
-        <li><img src="https://static-cdn.jtvnw.net/jtv_user_pictures/2f5addde-fd0d-4a10-82a9-ea91ebb17f8d-profile_image-300x300.png"></li>
-    </ul>
-</div>
-    <iframe width="1000" height="690"
-            src="https://www.youtube.com/embed/MF7ql39_ufY?autoplay=1&mute=1">
-    </iframe>
+<div id="gameOverScreen">
+    <h1 id="you_got">YOU GOT: <span id="final_points"></span> POINTS</h1>
+    <h2 id="game_over">GAME OVER</h2>
+    <button id="again">TRY AGAIN</button>
 </div>
 </body>
 </html>
