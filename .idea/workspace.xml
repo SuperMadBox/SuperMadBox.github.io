@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="450a76e7-2dc6-4033-bd68-4e4261c13009" name="Changes" comment="" />
+    <list default="true" id="450a76e7-2dc6-4033-bd68-4e4261c13009" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +15,9 @@
         <option value="HTML File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -48,6 +53,7 @@
       <workItem from="1677322659751" duration="169000" />
       <workItem from="1677763048849" duration="5943000" />
       <workItem from="1677777667934" duration="6081000" />
+      <workItem from="1677839658927" duration="42000" />
     </task>
     <servers />
   </component>
